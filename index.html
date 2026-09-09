@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZUMMIT | Reserva de Consolas</title> 
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <header>
+        <div>
+            <div class="logo-title">ZUMMIT</div>
+            <div class="logo-subtitle">RESERVÁ. ELEGÍ. JUGÁ.</div>
+        </div>
+        <div class="cart-btn-container" onclick="toggleCart()">
+            <button class="cart-btn">CARRITO</button>
+            <div class="cart-badge" id="cart-badge">0</div>
+        </div>
+    </header>
+
+    <div class="steps-bar">
+        <span id="step-1" class="active">1. CONSOLA</span> &gt; 
+        <span id="step-2">2. JUEGO</span> &gt; 
+        <span id="step-3">3. TIEMPO</span>
+    </div>
+
+    <div style="max-width: 1200px; margin: 0 auto; width: 80%;">
+        <button id="back-btn" class="back-btn" onclick="goBack()">← Volver</button>
+    </div>
+
+    <div class="carousel-container" id="carousel-section">
+        <button class="nav-btn" onclick="moveCarousel(-1)">&#10094;</button>
+        <div class="carousel-track-wrapper">
+            <div class="carousel-track" id="carousel-track"></div>
+        </div>
+        <button class="nav-btn" onclick="moveCarousel(1)">&#10095;</button>
+    </div>
+
+    <div class="time-selection" id="time-section">
+        <h2 id="selected-game-title">Selecciona el tiempo de uso</h2>
+        <div class="time-grid">
+            <div class="time-slot" onclick="selectTime(this, '30 min', 750)">30 min<br><small>$750</small></div>
+            <div class="time-slot" onclick="selectTime(this, '1 Hora', 1500)">1 Hora<br><small>$1.500</small></div>
+            <div class="time-slot" onclick="selectTime(this, '1 hr 30 min', 2800)">1 hr 30 min<br><small>$2.800</small></div>
+            <div class="time-slot" onclick="selectTime(this, '2 Horas', 3500)">2 Horas<br><small>$3.500</small></div>
+            <div class="time-slot" onclick="selectTime(this, '2 hr 30 min', 4000)">2 hr 30 min<br><small>$4.000</small></div>
+            <div class="time-slot" onclick="selectTime(this, '3 Horas', 5000)">3 Horas<br><small>$5.000</small></div>
+        </div>
+        <button class="add-to-cart-btn" id="add-to-cart-btn" onclick="addToCart()">AGREGAR AL CARRITO</button>
+    </div>
+
+    <div class="modal" id="cart-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>TU RESERVA</h2>
+                <button class="close-btn" onclick="toggleCart()">&times;</button>
+            </div>
+            <div id="cart-items">
+                <p style="color: var(--text-dim);">El carrito está vacío.</p>
+            </div>
+            <div class="cart-total" id="cart-total" style="display:none;"></div>
+            <button class="checkout-btn" onclick="finishPurchase()">CONFIRMAR RESERVA</button>
+        </div>
+    </div>
+
+    <script>
+        const data = [
+            {
+                id: 'ps5',
+                name: 'PlayStation',
+                img: 'images/PSlogo.png',
+                games: [
+                    { name: 'EA Sports FC 26', img: 'images/fifa.jpg' },
+                    { name: 'Spider-Man 2', img: 'images/spider.png' },
+                    { name: 'GTA V', img: 'images/gta.png' },
+                    { name: 'Horizon Forbidden West', img: 'images/horizon.jpg' },
+                    { name: 'The Last of Us Part II', img: 'images/last.jpg' }
+                ]
+            },
+            {
+                id: 'xbox',
+                name: 'Xbox',
+                img: 'images/xbox.png',
+                games: [
+                    { name: 'Forza Horizon 6', img: 'images/forza.webp' },
+                    { name: 'Halo Infinite', img: 'images/halo.jpg' },
+                    { name: 'Minecraft', img: 'images/minecraft.png' },
+                    { name: 'Palword', img: 'images/palword.png' },
+                    { name: 'Roblox', img: 'images/roblox.png' }
+                ]
+            },
+            {
+                id: 'switch',
+                name: 'Nintendo Switch',
+                img: 'images/nintendo.png',
+                games: [
+                    { name: 'Mario Kart 8 Deluxe', img: 'images/mariokart.png' },
+                    { name: 'Animal Crossing: New Horizons', img: 'images/animal.png' },
+                    { name: 'The Legend of Zelda: Tears of the Kingdom', img: 'images/zelda.png' },
+                    { name: 'Super Smash Bros. Ultimate', img: 'images/smashbros.png' },
+                    { name: 'Splatoon 3', img: 'images/splatoon.png' }
+                ]
+            }
+        ];
+
+        let currentStep = 1;
+        let selectedConsole = null;
+        let selectedGame = null;
+        let selectedTimeOption = null;
+        let cart = [];
+        
+        let currentIndex = 0;
+        let currentItems = [];
+
+        function id(e) { return document.getElementById(e); }
+        const track = id('carousel-track');
+
+        function renderConsoles() {
+            currentStep = 1;
+            updateStepIndicators();
+            id('back-btn').style.display = 'none';
+            id('time-section').style.display = 'none';
+            id('carousel-section').style.display = 'flex';
+            
+            currentItems = data;
+            buildCarousel(currentItems, (item) => selectConsole(item));
+        }
+
+        function selectConsole(consoleObj) {
+            selectedConsole = consoleObj;
+            currentStep = 2;
+            updateStepIndicators();
+            id('back-btn').style.display = 'block';
+            id('time-section').style.display = 'none';
+            id('carousel-section').style.display = 'flex';
+
+            currentItems = consoleObj.games;
+            buildCarousel(currentItems, (game) => selectGame(game));
+        }
+
+        function buildCarousel(items, onClickCallback) {
+            track.innerHTML = '';
+            currentIndex = 0;
+
+            items.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = () => {
+                    if (index === currentIndex) {
+                        onClickCallback(item);
+                    } else {
+                        let diff = index - currentIndex;
+                        const total = items.length;
+                        
+                        if (diff > Math.floor(total / 2)) diff -= total;
+                        if (diff < -Math.floor(total / 2)) diff += total;
+                        
+                        moveCarousel(diff);
+                    }
+                };
+                
+                card.innerHTML = `
+                    <img src="${item.img}" alt="${item.name}">
+                    <h3>${item.name}</h3>
+                `;
+                track.appendChild(card);
+            });
+
+            updateCards();
+        }
+
+        function moveCarousel(direction) {
+            const total = currentItems.length;
+            if (total === 0) return;
+            
+            currentIndex = (currentIndex + direction + total) % total;
+            updateCards();
+        }
+
+        function updateCards() {
+            const cards = track.querySelectorAll('.card');
+            const total = cards.length;
+
+            cards.forEach((card, index) => {
+                let offset = index - currentIndex;
+                
+                if (offset < -Math.floor(total / 2)) offset += total;
+                if (offset > Math.floor(total / 2)) offset -= total;
+
+                let tx = 0, tz = 0, ry = 0, opacity = 0, zIndex = 0;
+
+                /* Se ajustó tx para que las tarjetas más grandes no se superpongan */
+                if (offset === 0) {
+                    tx = 0; tz = 0; ry = 0; 
+                    opacity = 1; zIndex = 10;
+                    card.classList.add('active-card');
+                } else if (offset === 1) {
+                    tx = 280; tz = -150; ry = -35; 
+                    opacity = 0.7; zIndex = 5;
+                    card.classList.remove('active-card');
+                } else if (offset === -1) {
+                    tx = -280; tz = -150; ry = 35; 
+                    opacity = 0.7; zIndex = 5;
+                    card.classList.remove('active-card');
+                } else {
+                    tx = offset > 0 ? 450 : -450; 
+                    tz = -300; 
+                    ry = offset > 0 ? -50 : 50; 
+                    opacity = 0; zIndex = 1;
+                    card.classList.remove('active-card');
+                }
+
+                card.style.transform = `translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg)`;
+                card.style.opacity = opacity;
+                card.style.zIndex = zIndex;
+                card.style.pointerEvents = Math.abs(offset) <= 1 ? 'auto' : 'none';
+            });
+        }
+
+        function selectGame(gameObj) {
+            selectedGame = gameObj;
+            currentStep = 3;
+            updateStepIndicators();
+
+            id('carousel-section').style.display = 'none';
+            id('time-section').style.display = 'block';
+            id('selected-game-title').innerText = `${selectedConsole.name} - ${selectedGame.name}`;
+        }
+
+        function selectTime(element, hoursText, price) {
+            selectedTimeOption = { hoursText, price };
+            document.querySelectorAll('.time-slot').forEach(slot => slot.classList.remove('selected'));
+            element.classList.add('selected');
+            id('add-to-cart-btn').style.display = 'inline-block';
+        }
+
+        function addToCart() {
+            if (!selectedConsole || !selectedGame || !selectedTimeOption) return;
+
+            const item = {
+                console: selectedConsole.name,
+                game: selectedGame.name,
+                hours: selectedTimeOption.hoursText,
+                price: selectedTimeOption.price
+            };
+
+            cart.push(item);
+            updateCartUI();
+            
+            selectedTimeOption = null;
+            id('add-to-cart-btn').style.display = 'none';
+            document.querySelectorAll('.time-slot').forEach(slot => slot.classList.remove('selected'));
+            
+            renderConsoles();
+            toggleCart();
+        }
+
+        function updateCartUI() {
+            id('cart-badge').innerText = cart.length;
+            const container = id('cart-items');
+            const totalContainer = id('cart-total');
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-dim);">El carrito está vacío.</p>';
+                totalContainer.style.display = 'none';
+                return;
+            }
+
+            let total = 0;
+            container.innerHTML = cart.map((item, index) => {
+                total += item.price;
+                return `
+                    <div class="cart-item">
+                        <div>
+                            <strong>${item.console}</strong> - ${item.game}<br>
+                            <small style="color: var(--text-dim);">${item.hours}</small>
+                        </div>
+                        <div>
+                            <span style="color: var(--neon-red); font-weight: bold; margin-right: 10px;">$${item.price.toLocaleString('es-AR')}</span>
+                            <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4444; cursor:pointer;">✕</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            totalContainer.style.display = 'block';
+            totalContainer.innerText = `Total: $${total.toLocaleString('es-AR')}`;
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function toggleCart() {
+            const modal = id('cart-modal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function finishPurchase() {
+            if (cart.length === 0) return alert('El carrito está vacío.');
+            alert('¡Reserva completada con éxito! Te esperamos en ZUMMIT.');
+            cart = [];
+            updateCartUI();
+            toggleCart();
+        }
+
+        function goBack() {
+            if (currentStep === 3) {
+                selectConsole(selectedConsole);
+            } else if (currentStep === 2) {
+                renderConsoles();
+            }
+        }
+
+        function updateStepIndicators() {
+            id('step-1').className = currentStep === 1 ? 'active' : '';
+            id('step-2').className = currentStep === 2 ? 'active' : '';
+            id('step-3').className = currentStep === 3 ? 'active' : '';
+        }
+
+        renderConsoles();
+    </script>
+</body>
+</html>
