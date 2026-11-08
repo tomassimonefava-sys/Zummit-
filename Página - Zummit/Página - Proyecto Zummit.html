@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZUMMIT | Reserva de Consolas</title>
+    <style>
+        :root {
+            --bg-color: #080808;
+            --card-bg: #121216;
+            --neon-red: #ff1e27;
+            --neon-glow: rgba(255, 30, 39, 0.6);
+            --text-color: #ffffff;
+            --text-dim: #a0a0a0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-x: hidden;
+        }
+
+        header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #222;
+            box-shadow: 0 4px 20px rgba(255, 30, 39, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .logo-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #fff;
+            text-shadow: 0 0 10px var(--neon-glow), 0 0 20px var(--neon-glow);
+        }
+
+        .logo-subtitle {
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            color: var(--neon-red);
+            margin-top: -5px;
+        }
+
+        .cart-btn-container {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .cart-btn {
+            background: transparent;
+            border: 2px solid var(--neon-red);
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 4px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 0 10px var(--neon-glow);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .cart-btn:hover {
+            background: var(--neon-red);
+            box-shadow: 0 0 20px var(--neon-red);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #fff;
+            color: #000;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+
+        .steps-bar {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            color: var(--text-dim);
+        }
+        .steps-bar span.active {
+            color: var(--neon-red);
+            font-weight: bold;
+            text-shadow: 0 0 8px var(--neon-glow);
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-track-wrapper {
+            width: 80%;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 20px;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            padding: 10px;
+        }
+
+        .card {
+            min-width: 220px;
+            height: 280px;
+            background: var(--card-bg);
+            border: 1px solid #2a2a35;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            padding: 15px;
+            user-select: none;
+        }
+
+        .card:hover {
+            border-color: var(--neon-red);
+            transform: translateY(-8px);
+            box-shadow: 0 0 15px var(--neon-glow);
+        }
+
+        .card img {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
+        }
+
+        .card img_gta {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        .nav-btn {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--neon-red);
+            color: var(--neon-red);
+            font-size: 1.8rem;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px var(--neon-glow);
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: var(--neon-red);
+            color: #fff;
+        }
+
+        .time-selection {
+            max-width: 600px;
+            margin: 20px auto;
+            text-align: center;
+            display: none;
+        }
+
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .time-slot {
+            background: var(--card-bg);
+            border: 1px solid #333;
+            top: -150px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .time-slot:hover, .time-slot.selected {
+            border-color: var(--neon-red);
+            box-shadow: 0 0 10px var(--neon-glow);
+            background: rgba(255, 30, 39, 0.15);
+        }
+
+        .add-to-cart-btn {
+            margin-top: 25px;
+            background: var(--neon-red);
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--neon-glow);
+            letter-spacing: 2px;
+            display: none;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 2px solid var(--neon-red);
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 0 25px var(--neon-glow);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #222;
+        }
+
+        .cart-total {
+            margin-top: 15px;
+            text-align: right;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: var(--neon-red);
+            color: #fff;
+            border: none;
+            padding: 12px;
+            margin-top: 20px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            cursor: pointer;
+            border-radius: 6px;
+            box-shadow: 0 0 10px var(--neon-glow);
+        }
+
+        .back-btn {
+            background: transparent;
+            border: 1px solid #555;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>
+            <div class="logo-title">ZUMMIT</div>
+            <div class="logo-subtitle">RESERVÁ. ELEGÍ. JUGÁ.</div>
+        </div>
+        <div class="cart-btn-container" onclick="toggleCart()">
+            <button class="cart-btn">CARRITO</button>
+            <div class="cart-badge" id="cart-badge">0</div>
+        </div>
+    </header>
+
+    <div class="steps-bar">
+        <span id="step-1" class="active">1. CONSOLA</span> &gt; 
+        <span id="step-2">2. JUEGO</span> &gt; 
+        <span id="step-3">3. TIEMPO</span>
+    </div>
+
+    <div style="max-width: 1000px; margin: 0 auto; width: 80%;">
+        <button id="back-btn" class="back-btn" onclick="goBack()">← Volver</button>
+    </div>
+
+    <div class="carousel-container" id="carousel-section">
+        <button class="nav-btn" onclick="moveCarousel(-1)">&#10094;</button>
+        <div class="carousel-track-wrapper">
+            <div class="carousel-track" id="carousel-track"></div>
+        </div>
+        <button class="nav-btn" onclick="moveCarousel(1)">&#10095;</button>
+    </div>
+
+    <div class="time-selection" id="time-section">
+        <h2 id="selected-game-title">Selecciona el tiempo de uso</h2>
+        <div class="time-grid">
+            <div class="time-slot" onclick="selectTime(this, 1, 1500)">1 Hora<br><small>$1.500</small></div>
+            <div class="time-slot" onclick="selectTime(this, 2, 2800)">2 Horas<br><small>$2.800</small></div>
+            <div class="time-slot" onclick="selectTime(this, 3, 4000)">3 Horas<br><small>$4.000</small></div>
+        </div>
+        <button class="add-to-cart-btn" id="add-to-cart-btn" onclick="addToCart()">AGREGAR AL CARRITO</button>
+    </div>
+
+    <div class="modal" id="cart-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>TU RESERVA</h2>
+                <button class="close-btn" onclick="toggleCart()">&times;</button>
+            </div>
+            <div id="cart-items">
+                <p style="color: var(--text-dim);">El carrito está vacío.</p>
+            </div>
+            <div class="cart-total" id="cart-total" style="display:none;"></div>
+            <button class="checkout-btn" onclick="finishPurchase()">CONFIRMAR RESERVA</button>
+        </div>
+    </div>
+
+    <script>
+        const data = [
+            {
+                id: 'ps5',
+                name: 'PlayStation',
+                img: 'images/PSlogo.png',
+                games: [
+                    { name: 'EA Sports FC 25', img: 'https://cdn-icons-png.flaticon.com/512/1165/1165187.png' },
+                    { name: 'Spider-Man 2', img: 'https://cdn-icons-png.flaticon.com/512/1068/1068778.png' },
+                    { name: 'GTA V', img_gta: 'images/gta.png' }
+                ]
+            },
+            {
+                id: 'xbox',
+                name: 'Xbox',
+                img: 'images/xbox.png',
+                games: [
+                    { name: 'Forza Horizon 5', img: 'https://cdn-icons-png.flaticon.com/512/744/744462.png' },
+                    { name: 'Halo Infinite', img: 'https://cdn-icons-png.flaticon.com/512/1068/1068778.png' },
+                    { name: 'Call of Duty', img: 'https://cdn-icons-png.flaticon.com/512/686/686589.png' }
+                ]
+            },
+            {
+                id: 'switch',
+                name: 'Nintendo Switch',
+                img: 'images/nintendo.png',
+                games: [
+                    { name: 'Mario Kart 8 Deluxe', img: 'https://cdn-icons-png.flaticon.com/512/1165/1165187.png' },
+                    { name: 'Zelda: Tears of Kingdom', img: 'https://cdn-icons-png.flaticon.com/512/1068/1068778.png' },
+                    { name: 'Super Smash Bros', img: 'https://cdn-icons-png.flaticon.com/512/744/744462.png' }
+                ]
+            }
+        ];
+
+        let currentStep = 1;
+        let selectedConsole = null;
+        let selectedGame = null;
+        let selectedTimeOption = null;
+        let cart = [];
+        let carouselPosition = 0;
+
+        function id(e) { return document.getElementById(e); }
+        const track = id('carousel-track');
+
+        function renderConsoles() {
+            currentStep = 1;
+            updateStepIndicators();
+            id('back-btn').style.display = 'none';
+            id('time-section').style.display = 'none';
+            id('carousel-section').style.display = 'flex';
+            
+            track.innerHTML = '';
+            carouselPosition = 0;
+            track.style.transform = `translateX(0px)`;
+
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = () => selectConsole(item);
+                card.innerHTML = `
+                    <img src="${item.img}" alt="${item.name}">
+                    <h3>${item.name}</h3>
+                `;
+                track.appendChild(card);
+            });
+        }
+
+        function selectConsole(consoleObj) {
+            selectedConsole = consoleObj;
+            currentStep = 2;
+            updateStepIndicators();
+            id('back-btn').style.display = 'block';
+            id('time-section').style.display = 'none';
+            id('carousel-section').style.display = 'flex';
+
+            track.innerHTML = '';
+            carouselPosition = 0;
+            track.style.transform = `translateX(0px)`;
+
+            consoleObj.games.forEach(game => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = () => selectGame(game);
+                card.innerHTML = `
+                    <img src="${game.img}" alt="${game.name}">
+                    <h3>${game.name}</h3>
+                `;
+                track.appendChild(card);
+            });
+        }
+
+        function selectGame(gameObj) {
+            selectedGame = gameObj;
+            currentStep = 3;
+            updateStepIndicators();
+
+            id('carousel-section').style.display = 'none';
+            id('time-section').style.display = 'block';
+            id('selected-game-title').innerText = `${selectedConsole.name} - ${selectedGame.name}`;
+        }
+
+        function moveCarousel(direction) {
+            const card = track.querySelector('.card');
+            if (!card) return;
+            const cardWidth = card.offsetWidth + 20;
+            const maxScroll = Math.max(0, track.scrollWidth - track.parentElement.offsetWidth);
+
+            carouselPosition += direction * cardWidth;
+            if (carouselPosition < 0) carouselPosition = 0;
+            if (carouselPosition > maxScroll) carouselPosition = maxScroll;
+
+            track.style.transform = `translateX(-${carouselPosition}px)`;
+        }
+
+        function selectTime(element, hours, price) {
+            selectedTimeOption = { hours, price };
+            document.querySelectorAll('.time-slot').forEach(slot => slot.classList.remove('selected'));
+            element.classList.add('selected');
+            id('add-to-cart-btn').style.display = 'inline-block';
+        }
+
+        function addToCart() {
+            if (!selectedConsole || !selectedGame || !selectedTimeOption) return;
+
+            const item = {
+                console: selectedConsole.name,
+                game: selectedGame.name,
+                hours: selectedTimeOption.hours,
+                price: selectedTimeOption.price
+            };
+
+            cart.push(item);
+            updateCartUI();
+            
+            selectedTimeOption = null;
+            id('add-to-cart-btn').style.display = 'none';
+            document.querySelectorAll('.time-slot').forEach(slot => slot.classList.remove('selected'));
+            
+            renderConsoles();
+            toggleCart();
+        }
+
+        function updateCartUI() {
+            id('cart-badge').innerText = cart.length;
+            const container = id('cart-items');
+            const totalContainer = id('cart-total');
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-dim);">El carrito está vacío.</p>';
+                totalContainer.style.display = 'none';
+                return;
+            }
+
+            let total = 0;
+            container.innerHTML = cart.map((item, index) => {
+                total += item.price;
+                return `
+                    <div class="cart-item">
+                        <div>
+                            <strong>${item.console}</strong> - ${item.game}<br>
+                            <small style="color: var(--text-dim);">${item.hours} hora(s)</small>
+                        </div>
+                        <div>
+                            <span style="color: var(--neon-red); font-weight: bold; margin-right: 10px;">$${item.price.toLocaleString('es-AR')}</span>
+                            <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4444; cursor:pointer;">✕</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            totalContainer.style.display = 'block';
+            totalContainer.innerText = `Total: $${total.toLocaleString('es-AR')}`;
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function toggleCart() {
+            const modal = id('cart-modal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function finishPurchase() {
+            if (cart.length === 0) return alert('El carrito está vacío.');
+            alert('¡Reserva completada con éxito! Te esperamos en ZUMMIT.');
+            cart = [];
+            updateCartUI();
+            toggleCart();
+        }
+
+        function goBack() {
+            if (currentStep === 3) {
+                selectConsole(selectedConsole);
+            } else if (currentStep === 2) {
+                renderConsoles();
+            }
+        }
+
+        function updateStepIndicators() {
+            id('step-1').className = currentStep === 1 ? 'active' : '';
+            id('step-2').className = currentStep === 2 ? 'active' : '';
+            id('step-3').className = currentStep === 3 ? 'active' : '';
+        }
+
+        renderConsoles();
+    </script>
+</body>
+</html>
