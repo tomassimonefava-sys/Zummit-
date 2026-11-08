@@ -13,10 +13,24 @@
             <div class="logo-title">ZUMMIT</div>
             <div class="logo-subtitle">RESERVÁ. ELEGÍ. JUGÁ.</div>
         </div>
+
+        <nav class="header-tabs">
+            <button class="header-tab">
+                <img src="images/pestañas/joystick.png" alt="Logo 1">
+            </button>
+            <button class="header-tab">
+                <img src="images/pestañas/persona.png" alt="Logo 2">
+            </button>
+            <button class="header-tab">
+                <img src="images/pestañas/logo.png" alt="Logo 3">
+            </button>
+        </nav>
+
         <div class="cart-btn-container" onclick="toggleCart()">
             <button class="cart-btn">CARRITO</button>
             <div class="cart-badge" id="cart-badge">0</div>
         </div>
+
     </header>
 
     <div class="steps-bar">
@@ -39,6 +53,7 @@
 
     <div class="time-selection" id="time-section">
         <h2 id="selected-game-title">Selecciona el tiempo de uso</h2>
+        
         <div class="time-grid">
             <div class="time-slot" onclick="selectTime(this, '30 min', 750)">30 min<br><small>$750</small></div>
             <div class="time-slot" onclick="selectTime(this, '1 Hora', 1500)">1 Hora<br><small>$1.500</small></div>
@@ -100,6 +115,18 @@
                     { name: 'The Legend of Zelda: Tears of the Kingdom', img: 'images/zelda.png' },
                     { name: 'Super Smash Bros. Ultimate', img: 'images/smashbros.png' },
                     { name: 'Splatoon 3', img: 'images/splatoon.png' }
+                ]
+            },
+            {
+                id: 'arcade',
+                name: 'Arcade',
+                img: 'images/arcade.png',
+                games: [
+                    { name: 'Tetris (1989)', img: 'images/tetris.png' },
+                    { name: 'Donkey Kong (1994)', img: 'images/donkey.png' },
+                    { name: 'Street Fighter 2', img: 'images/st2.png' },
+                    { name: 'Sonic The Hedgehog (1991)', img: 'images/sonic.png' },
+                    { name: 'Metal Slug (1996)', img: 'images/metal.png' }
                 ]
             }
         ];
@@ -226,6 +253,14 @@
             id('carousel-section').style.display = 'none';
             id('time-section').style.display = 'block';
             id('selected-game-title').innerText = `${selectedConsole.name} - ${selectedGame.name}`;
+
+            const consoleImgElem = id('console-preview-img');
+            consoleImgElem.src = selectedConsole.img; 
+            consoleImgElem.style.display = 'block';
+
+            const gameImgElem = id('game-preview-img');
+            gameImgElem.src = selectedGame.img;
+            gameImgElem.style.display = 'block';
         }
 
         function selectTime(element, hoursText, price) {
