@@ -1,325 +1,427 @@
 :root {
-            --bg-color: #080808;
-            --card-bg: #121216;
-            --neon-red: #ff1e27;
-            --neon-glow: rgba(255, 30, 39, 0.6);
-            --text-color: #ffffff;
-            --text-dim: #a0a0a0;
-        }
+    --bg-color: #080808;
+    --card-bg: #121216;
+    --neon-red: #ff1e27;
+    --neon-glow: rgba(255, 30, 39, 0.6);
+    --text-color: #ffffff;
+    --text-dim: #a0a0a0;
+}
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            overflow-x: hidden;
-        }
+body {
+    background-color: var(black);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-x: hidden;
+    background-image: url('images/fondos/fondo.png'); 
+    background-size: cover;       
+    background-position: center;  
+    background-repeat: no-repeat; 
+    background-attachment: fixed;
+}
 
-        header {
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid #222;
-            box-shadow: 0 4px 20px rgba(255, 30, 39, 0.15);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-        }
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.75); 
+    z-index: -1;
+    pointer-events: none;
+}
 
-        .logo-title {
-            font-size: 2.2rem;
-            font-weight: 900;
-            letter-spacing: 6px;
-            color: #fff;
-            text-shadow: 0 0 10px var(--neon-glow), 0 0 20px var(--neon-glow);
-        }
+header {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid #222;
+    box-shadow: 0 4px 20px rgba(255, 30, 39, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    background-color: var(--bg-color); 
+    position: relative; 
+    z-index: 10;
+}
 
-        .logo-subtitle {
-            font-size: 0.75rem;
-            letter-spacing: 4px;
-            color: var(--neon-red);
-            margin-top: -5px;
-        }
+.header-tabs {
+    display: flex;
+    align-items: center;
+    gap: 100px; /* Espacio entre cada cuadrado */
+}
 
-        .cart-btn-container {
-            position: relative;
-            cursor: pointer;
-        }
+/* Cada boton/cuadrado individual */
+.header-tab {
+    background-color: rgba(18, 18, 22, 0.8);
+    border: 1px solid rgba(255, 0, 60, 0.25);
+    border-radius: 6px;
+    width: 65px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 6px;
+    transition: all 0.25s ease;
+}
 
-        .cart-btn {
-            background: transparent;
-            border: 2px solid var(--neon-red);
-            color: #fff;
-            padding: 10px 18px;
-            border-radius: 4px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            box-shadow: 0 0 10px var(--neon-glow);
-            transition: all 0.3s;
-            cursor: pointer;
-        }
+/* Imagen del logo dentro del cuadrado */
+.header-tab img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: brightness(0.9);
+    transition: filter 0.25s ease;
+}
 
-        .cart-btn:hover {
-            background: var(--neon-red);
-            box-shadow: 0 0 20px var(--neon-red);
-        }
+/* Efecto al pasar el mouse por arriba */
+.header-tab:hover {
+    border-color: var(--neon-red, #ff003c);
+    box-shadow: 0 0 10px rgba(255, 0, 60, 0.5);
+    transform: translateY(-2px);
+}
 
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #fff;
-            color: #000;
-            font-weight: bold;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-        }
+.header-tab:hover img {
+    filter: brightness(1.2);
+}
 
-        .steps-bar {
-            text-align: center;
-            margin: 20px 0;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            color: var(--text-dim);
-        }
-        .steps-bar span.active {
-            color: var(--neon-red);
-            font-weight: bold;
-            text-shadow: 0 0 8px var(--neon-glow);
-        }
+.logo-title {
+    font-size: 2.2rem;
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: #fff;
+    text-shadow: 0 0 10px var(--neon-glow), 0 0 20px var(--neon-glow);
+}
 
-        /* --- INICIO ESTILOS CARRUSEL 3D --- */
-        .carousel-container {
-            position: relative;
-            width: 100%;
-            max-width: 1000px;
-            margin: 20px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            perspective: 1200px;
-            height: 350px;
-        }
+.logo-subtitle {
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    color: var(--neon-red);
+    margin-top: -5px;
+}
 
-        .carousel-track-wrapper {
-            position: relative;
-            width: 220px;
-            height: 280px;
-            transform-style: preserve-3d;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 40px; 
-        }
+.cart-btn-container {
+    position: relative;
+    cursor: pointer;
+}
 
-        .carousel-track {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            transform-style: preserve-3d;
-        }
+.cart-btn {
+    background: transparent;
+    border: 2px solid var(--neon-red);
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 4px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px var(--neon-glow);
+    transition: all 0.3s;
+    cursor: pointer;
+}
 
-        .card {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: var(--card-bg);
-            border: 1px solid #2a2a35;
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease, filter 0.6s ease;
-            text-align: center;
-            padding: 15px;
-            user-select: none;
-            box-sizing: border-box;
-        }
+.cart-btn:hover {
+    background: var(--neon-red);
+    box-shadow: 0 0 20px var(--neon-red);
+}
 
-        .card.active-card {
-            border-color: var(--neon-red);
-            box-shadow: 0 0 15px var(--neon-glow);
-            filter: brightness(1.1);
-        }
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #fff;
+    color: #000;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+}
 
-        .card:not(.active-card) {
-            filter: brightness(0.5);
-            opacity: 0.7;
-        }
+.steps-bar {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    margin-top: 15px;
+    position: block;
+}
+.steps-bar span.active {
+    color: var(--neon-red);
+    font-weight: bold;
+    text-shadow: 0 0 8px var(--neon-glow);
+}
 
-        .card img {
-            width: 150px;
-            height: 150px;
-            object-fit: contain;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
-        }
+/* --- INICIO ESTILOS CARRUSEL 3D --- */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin: 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1200px;
+    height: 350px;
+}
 
-        .card h3 {
-            font-size: 1.1rem;
-            letter-spacing: 1px;
-        }
-        /* --- FIN ESTILOS CARRUSEL 3D --- */
+.carousel-track-wrapper {
+    position: relative;
+    width: 280px;
+    height: 360px;
+    transform-style: preserve-3d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 50px; 
+    margin-bottom: 35px;
+}
 
-        .nav-btn {
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid var(--neon-red);
-            color: var(--neon-red);
-            font-size: 1.8rem;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 20;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 10px var(--neon-glow);
-            transition: all 0.3s;
-        }
+.carousel-track {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+}
 
-        .nav-btn:hover {
-            background: var(--neon-red);
-            color: #fff;
-        }
+.card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--card-bg);
+    border: 1px solid #2a2a35;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease, filter 0.6s ease;
+    text-align: center;
+    user-select: none;
+    box-sizing: border-box;
+    margin-top: 40px;
+}
 
-        .time-selection {
-            max-width: 600px;
-            margin: 20px auto;
-            text-align: center;
-            display: none;
-        }
+.card.active-card {
+    border-color: var(--neon-red);
+    box-shadow: 0 0 15px var(--neon-glow);
+    filter: brightness(1.1);
+    bottom: 25px;
+}
 
-        .time-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-        }
+.card:not(.active-card) {
+    filter: brightness(0.5);
+    opacity: 0.7;
+    bottom: 65px;
+}
 
-        .time-slot {
-            background: var(--card-bg);
-            border: 1px solid #333;
-            padding: 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+.card img {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
+}
 
-        .time-slot:hover, .time-slot.selected {
-            border-color: var(--neon-red);
-            box-shadow: 0 0 10px var(--neon-glow);
-            background: rgba(255, 30, 39, 0.15);
-        }
+.card h3 {
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+}
+/* --- FIN ESTILOS CARRUSEL 3D --- */
 
-        .add-to-cart-btn {
-            margin-top: 25px;
-            background: var(--neon-red);
-            color: #fff;
-            border: none;
-            padding: 12px 30px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            box-shadow: 0 0 15px var(--neon-glow);
-            letter-spacing: 2px;
-            display: none;
-        }
+.nav-btn {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--neon-red);
+    color: var(--neon-red);
+    font-size: 1.8rem;
+    width: 50px;
+    height: 50px;
+    margin-bottom: 95px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px var(--neon-glow);
+    transition: all 0.3s;
+}
 
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(5px);
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-        }
+.nav-btn:hover {
+    background: var(--neon-red);
+    color: #fff;
+}
 
-        .modal-content {
-            background: var(--card-bg);
-            border: 2px solid var(--neon-red);
-            padding: 30px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 0 25px var(--neon-glow);
-        }
+.time-selection {
+    max-width: 600px;
+    margin: 20px auto;
+    text-align: center;
+    display: none;
+    top: 85px;
+    padding-bottom: 90px;
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;     
+    text-align: center;
+}
 
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #333;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
+.time-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
 
-        .close-btn {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
+.time-slot {
+    background: var(--card-bg);
+    border: 1px solid #333;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 150px;
+    height: 110px;
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;     
+    text-align: center;
+}
 
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #222;
-        }
+.time-slot:hover, .time-slot.selected {
+    border-color: var(--neon-red);
+    box-shadow: 0 0 10px var(--neon-glow);
+    background: rgba(255, 30, 39, 0.15);
+}
 
-        .cart-total {
-            margin-top: 15px;
-            text-align: right;
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #fff;
-        }
+.add-to-cart-btn {
+    margin-top: 25px;
+    background: var(--neon-red);
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 0 15px var(--neon-glow);
+    letter-spacing: 2px;
+    display: none;
+}
 
-        .checkout-btn {
-            width: 100%;
-            background: var(--neon-red);
-            color: #fff;
-            border: none;
-            padding: 12px;
-            margin-top: 20px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            cursor: pointer;
-            border-radius: 6px;
-            box-shadow: 0 0 10px var(--neon-glow);
-        }
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(5px);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+}
 
-        .back-btn {
-            background: transparent;
-            border: 1px solid #555;
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-bottom: 15px;
-            display: none;
-        }
+.modal-content {
+    background: var(--card-bg);
+    border: 2px solid var(--neon-red);
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 0 25px var(--neon-glow);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #222;
+}
+
+.cart-total {
+    margin-top: 15px;
+    text-align: right;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.checkout-btn {
+    width: 100%;
+    background: var(--neon-red);
+    color: #fff;
+    border: none;
+    padding: 12px;
+    margin-top: 20px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    border-radius: 6px;
+    box-shadow: 0 0 10px var(--neon-glow);
+}
+
+.back-btn {
+    background: transparent;
+    background-color: rgb(0, 0, 0);;
+    border: 1.5px solid #555;
+    border-color: rgb(133, 0, 0);
+    color: rgb(255, 255, 255);
+    padding: 15px 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: none;
+    box-shadow: 0 0 75px var(--neon-glow);
+    filter: brightness(1.8);
+    font-size: 0.95rem;
+}
+
+.back-btn:hover {
+    background: var(--neon-red);
+    color: #fff;
+    box-shadow: 0 0 25px var(--neon-glow);
+}
+
+.time-layout-container {
+    position: relative; 
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
