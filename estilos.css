@@ -1,0 +1,585 @@
+:root {
+    --bg-color: #080808;
+    --card-bg: #121216;
+    --neon-red: #ff1e27;
+    --neon-glow: rgba(255, 30, 39, 0.6);
+    --text-color: #ffffff;
+    --text-dim: #a0a0a0;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-x: hidden;
+    background-image: url('images/fondos/fondo.png'); 
+    background-size: cover;       
+    background-position: center;  
+    background-repeat: no-repeat; 
+    background-attachment: fixed;
+    padding-top: 150px;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.75); 
+    z-index: -1;
+    pointer-events: none;
+}
+
+header {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid #222;
+    box-shadow: 0 4px 20px rgba(255, 30, 39, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    background-color: var(--bg-color); 
+    position: relative; 
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%); /* Lo centramos perfectamente */
+}
+
+.header-tabs {
+    display: flex;
+    align-items: center;
+    gap: 100px; /* Espacio entre cada cuadrado */
+}
+
+/* Cada boton/cuadrado individual */
+.header-tab {
+    background-color: rgba(18, 18, 22, 0.8);
+    border: 1px solid rgba(255, 0, 60, 0.25);
+    border-radius: 6px;
+    width: 65px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 6px;
+    transition: all 0.25s ease;
+}
+
+/* Imagen del logo dentro del cuadrado */
+.header-tab img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: brightness(0.9);
+    transition: filter 0.25s ease;
+}
+
+/* Efecto al pasar el mouse por arriba */
+.header-tab:hover {
+    border-color: var(--neon-red, #ff003c);
+    box-shadow: 0 0 10px rgba(255, 0, 60, 0.5);
+    transform: translateY(-2px);
+}
+
+.header-tab:hover img {
+    filter: brightness(1.2);
+}
+
+header.scrolled {
+    padding: 8px 20px; /* Se achica el espacio vertical */
+    background-color: rgba(8, 8, 8, 0.95); /* Fondo ligeramente opaco para destacar */
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 15px rgba(255, 30, 39, 0.3);
+}
+
+/* Achicamos también los cuadrados de navegación internos al hacer scroll */
+header.scrolled .header-tab {
+    width: 58px;
+    height: 58px;
+}
+
+header.scrolled .logo-title {
+    font-size: 1.9rem; /* El título de ZUMMIT se reduce un poco */
+    letter-spacing: 6px;
+}
+
+header.scrolled .logo-subtitle {
+    font-size: 0.9rem;
+    letter-spacing: 4px;
+}
+
+header.scrolled .cart-btn {
+    padding: 10px 18px;
+    font-size: 0.85rem;
+}
+
+.logo-title {
+    font-size: 2.2rem;
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: #fff;
+    text-shadow: 0 0 10px var(--neon-glow), 0 0 20px var(--neon-glow);
+}
+
+.logo-subtitle {
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    color: var(--neon-red);
+    margin-top: -5px;
+}
+
+.cart-btn-container {
+    position: relative;
+    cursor: pointer;
+}
+
+.cart-btn {
+    background: transparent;
+    border: 2px solid var(--neon-red);
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 4px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px var(--neon-glow);
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.cart-btn:hover {
+    background: var(--neon-red);
+    box-shadow: 0 0 20px var(--neon-red);
+}
+
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #fff;
+    color: #000;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+}
+
+.steps-bar {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    margin-top: 15px;
+}
+
+.steps-bar span.active {
+    color: var(--neon-red);
+    font-weight: bold;
+    text-shadow: 0 0 8px var(--neon-glow);
+}
+
+/* --- INICIO ESTILOS CARRUSEL 3D --- */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin: 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1200px;
+    height: 350px;
+}
+
+.carousel-track-wrapper {
+    position: relative;
+    width: 280px;
+    height: 360px;
+    transform-style: preserve-3d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 50px; 
+    margin-bottom: 35px;
+}
+
+.carousel-track {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+}
+
+.card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--card-bg);
+    border: 1px solid #2a2a35;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease, filter 0.6s ease;
+    text-align: center;
+    user-select: none;
+    box-sizing: border-box;
+    margin-top: 40px;
+}
+
+.card.active-card {
+    border-color: var(--neon-red);
+    box-shadow: 0 0 15px var(--neon-glow);
+    filter: brightness(1.1);
+    bottom: 25px;
+}
+
+.card:not(.active-card) {
+    filter: brightness(0.5);
+    opacity: 0.7;
+    bottom: 65px;
+}
+
+.card img {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
+}
+
+.card h3 {
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+}
+/* --- FIN ESTILOS CARRUSEL 3D --- */
+
+.nav-btn {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--neon-red);
+    color: var(--neon-red);
+    font-size: 1.8rem;
+    width: 50px;
+    height: 50px;
+    margin-bottom: 95px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px var(--neon-glow);
+    transition: all 0.3s;
+}
+
+.nav-btn:hover {
+    background: var(--neon-red);
+    color: #fff;
+}
+
+.time-selection {
+    max-width: 600px;
+    margin: 20px auto;
+    text-align: center;
+    display: none;
+    padding-bottom: 90px;
+    font-size: 1.2rem;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;    
+}
+
+.time-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.time-slot {
+    background: var(--card-bg);
+    border: 1px solid #333;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 150px;
+    height: 110px;
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;    
+    text-align: center;
+}
+
+.time-slot small {
+    color: #00ff00; 
+    font-weight: bold;
+    text-shadow: 0 0 6px rgba(0, 255, 102, 0.4); 
+}
+
+.time-slot:hover, .time-slot.selected {
+    border-color: var(--neon-red);
+    box-shadow: 0 0 10px var(--neon-glow);
+    background: rgba(255, 30, 39, 0.15);
+}
+
+/* --- ESTILOS PARA EL SELECTOR DE FECHA Y DÍA --- */
+.date-picker-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.date-label {
+    color: var(--text-color, #ffffff);
+    font-size: 0.85rem;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    opacity: 0.8;
+}
+
+.custom-date-input {
+    background-color: rgba(18, 18, 22, 0.9);
+    border: 1px solid rgba(255, 0, 60, 0.4);
+    border-radius: 6px;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 10px 16px;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+.custom-date-input::-webkit-calendar-picker-indicator {
+    filter: invert(1) sepia(1) saturate(5) hue-rotate(310deg);
+    cursor: pointer;
+}
+
+.custom-date-input:hover,
+.custom-date-input:focus {
+    border-color: var(--neon-red, #ff003c);
+    box-shadow: 0 0 12px rgba(255, 0, 60, 0.5);
+}
+/* ---------------------------------------------- */
+
+.add-to-cart-btn {
+    margin-top: 25px;
+    background: var(--neon-red);
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 0 15px var(--neon-glow);
+    letter-spacing: 2px;
+    display: none;
+    transition: all 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+    box-shadow: 0 0 22px var(--neon-red);
+    transform: translateY(-2px);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(5px);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: var(--card-bg);
+    border: 2px solid var(--neon-red);
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 0 25px var(--neon-glow);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #222;
+}
+
+.cart-total {
+    margin-top: 15px;
+    text-align: right;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.checkout-btn {
+    width: 100%;
+    background: var(--neon-red);
+    color: #fff;
+    border: none;
+    padding: 12px;
+    margin-top: 20px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    border-radius: 6px;
+    box-shadow: 0 0 10px var(--neon-glow);
+}
+
+.back-btn {
+    background: transparent;
+    background-color: rgb(0, 0, 0);
+    border: 1.5px solid #555;
+    border-color: rgb(133, 0, 0);
+    color: rgb(255, 255, 255);
+    padding: 15px 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: none;
+    box-shadow: 0 0 75px var(--neon-glow);
+    filter: brightness(1.8);
+    font-size: 0.95rem;
+    position: relative;
+    z-index: 10; 
+    margin-top: 20px;
+}
+
+.back-btn:hover {
+    background: var(--neon-red);
+    color: #fff;
+    box-shadow: 0 0 25px var(--neon-glow);
+}
+
+.time-layout-container {
+    position: relative; 
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* --- ESTILOS PARA EL CARRUSEL VERTICAL DE FECHAS --- */
+.vertical-picker-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin: 20px auto;
+}
+
+.vertical-track-window {
+    width: 280px;
+    height: 180px; /* Muestra 3 elementos a la vez (aprox 60px c/u) */
+    overflow: hidden;
+    position: relative;
+    background: rgba(18, 18, 22, 0.9);
+    border: 1px solid var(--neon-red);
+    border-radius: 8px;
+    box-shadow: 0 0 15px var(--neon-glow);
+}
+
+.vertical-track {
+    position: absolute;
+    width: 100%;
+    transition: transform 0.3s ease-out;
+}
+
+.vertical-item {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.vertical-item.active-vertical {
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-shadow: 0 0 10px var(--neon-red);
+    background: rgba(255, 30, 39, 0.2);
+    border-top: 1px solid rgba(255, 30, 39, 0.4);
+    border-bottom: 1px solid rgba(255, 30, 39, 0.4);
+}
+
+.vertical-item.near-vertical {
+    opacity: 0.5;
+}
+
+.vertical-nav-btn {
+    background: transparent;
+    border: 1px solid var(--neon-red);
+    color: var(--neon-red);
+    padding: 6px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.vertical-nav-btn:hover {
+    background: var(--neon-red);
+    color: #fff;
+    box-shadow: 0 0 10px var(--neon-glow);
+}
