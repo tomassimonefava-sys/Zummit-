@@ -11,30 +11,30 @@
     <header>
         <div class="logo-container" onclick="renderConsoles()" style="cursor: pointer;">
             <div>
-                <div class="logo-title">ZUMMIT</div>
-                <div class="logo-subtitle">RESERVÁ. ELEGÍ. JUGÁ.</div>
+                <div class="titulo-logo">ZUMMIT</div>
+                <div class="subtitulo-logo">RESERVÁ. ELEGÍ. JUGÁ.</div>
             </div>
         </div>
 
-        <nav class="header-tabs">
-            <button class="header-tab" onclick="renderAllGamesGrid()">
+        <nav class="pestanas-header">
+            <button class="pestana-header" onclick="renderAllGamesGrid()">
                 <img src="images/pestañas/joystick.png" alt="Logo 1">
             </button>
-            <button class="header-tab">
+            <button class="pestana-header">
                 <img src="images/pestañas/persona.png" alt="Logo 2">
             </button>
-            <button class="header-tab">
+            <button class="pestana-header">
                 <img src="images/pestañas/logo.png" alt="Logo 3">
             </button>
         </nav>
 
-        <div class="cart-btn-container" onclick="toggleCart()">
-            <button class="cart-btn">CARRITO</button>
-            <div class="cart-badge" id="cart-badge">0</div>
+        <div class="contenedor-boton-carrito" onclick="toggleCart()">
+            <button class="boton-carrito">CARRITO</button>
+            <div class="insignia-carrito" id="cart-badge">0</div>
         </div>
     </header>
 
-    <div class="steps-bar">
+    <div class="barra-pasos">
         1. <span id="step-1" class="active">CONSOLA</span> &gt; 
         <span id="step-2">2. JUEGO</span> &gt; 
         <span id="step-3">3. TIEMPO</span> &gt; 
@@ -42,7 +42,7 @@
     </div>
 
     <div style="max-width: 1200px; margin: 0 auto; width: 80%;">
-        <button id="back-btn" class="back-btn" onclick="goBack()">← Volver</button>
+        <button id="back-btn" class="boton-volver" onclick="goBack()">← Volver</button>
     </div>
 
     <!-- SECCIÓN GRILLA DE TODOS LOS JUEGOS (MENÚ DE 5 COLUMNAS) -->
@@ -54,61 +54,61 @@
     </div>
 
     <!-- 1. SECCIÓN CARRUSEL DE CONSOLAS Y JUEGOS -->
-    <div class="carousel-container" id="carousel-section">
-        <button class="nav-btn" onclick="moveCarousel(-1)">&#10094;</button>
-        <div class="carousel-track-wrapper">
-            <div class="carousel-track" id="carousel-track"></div>
+    <div class="contenedor-carrusel" id="carousel-section">
+        <button class="boton-navegacion" onclick="moveCarousel(-1)">&#10094;</button>
+        <div class="contenedor-pista-carrusel">
+            <div class="pista-carrusel" id="carousel-track"></div>
         </div>
-        <button class="nav-btn" onclick="moveCarousel(1)">&#10095;</button>
+        <button class="boton-navegacion" onclick="moveCarousel(1)">&#10095;</button>
     </div>
 
     <!-- 2. SECCIÓN TIEMPO (SLOTS) -->
-    <div class="time-selection" id="time-section" style="display: none;">
+    <div class="seleccion-tiempo" id="time-section" style="display: none;">
         <h2 id="selected-game-title">Selecciona el tiempo de uso</h2>
         
-        <div class="time-grid">
-            <div class="time-slot" onclick="selectTime(this, '1 Hora', 15000)">1 Hora<br><small>$15.000</small></div>
-            <div class="time-slot" onclick="selectTime(this, '1 Hr 30 Min', 22500)">1 Hr 30 Min<br><small>$22.500</small></div>
-            <div class="time-slot" onclick="selectTime(this, '2 Horas', 28000)">2 Horas<br><small>$28.000</small></div>
-            <div class="time-slot" onclick="selectTime(this, '2 Hr 30 Min', 37500)">2 Hrs 30 Min<br><small>$37.500</small></div>
-            <div class="time-slot" onclick="selectTime(this, '3 Horas', 40000)">3 Horas<br><small>$40.000</small></div>
-            <div class="time-slot" onclick="selectTime(this, '3 Hr 30 Min', 48500)">3 Hrs 30 Min<br><small>$48.500</small></div>
+        <div class="grilla-tiempo">
+            <div class="espacio-tiempo" onclick="selectTime(this, '1 Hora', 15000)">1 Hora<br><small>$15.000</small></div>
+            <div class="espacio-tiempo" onclick="selectTime(this, '1 Hr 30 Min', 22500)">1 Hr 30 Min<br><small>$22.500</small></div>
+            <div class="espacio-tiempo" onclick="selectTime(this, '2 Horas', 28000)">2 Horas<br><small>$28.000</small></div>
+            <div class="espacio-tiempo" onclick="selectTime(this, '2 Hr 30 Min', 37500)">2 Hrs 30 Min<br><small>$37.500</small></div>
+            <div class="espacio-tiempo" onclick="selectTime(this, '3 Horas', 40000)">3 Horas<br><small>$40.000</small></div>
+            <div class="espacio-tiempo" onclick="selectTime(this, '3 Hr 30 Min', 48500)">3 Hrs 30 Min<br><small>$48.500</small></div>
         </div>
 
         <div style="text-align: center; margin-top: 30px;">
-            <button class="add-to-cart-btn" id="confirm-time-btn" style="display: none;" onclick="goToDateSelection()">CONFIRMAR</button>
+            <button class="boton-agregar-carrito" id="confirm-time-btn" style="display: none;" onclick="goToDateSelection()">CONFIRMAR</button>
         </div>
     </div>
 
     <div class="date-vertical-section" id="date-section" style="display: none; text-align: center; max-width: 600px; margin: 20px auto; padding-bottom: 90px;">
         <h2>Selecciona el Día y Mes</h2>
         
-        <div class="vertical-picker-container">
-            <button class="vertical-nav-btn" onclick="moveVerticalPicker(-1)">&#10053; ▲</button>
-            <div class="vertical-track-window">
-                <div class="vertical-track" id="vertical-date-track">
+        <div class="contenedor-selector-vertical">
+            <button class="boton-navegacion-vertical" onclick="moveVerticalPicker(-1)">&#10053; ▲</button>
+            <div class="ventana-pista-vertical">
+                <div class="pista-vertical" id="vertical-date-track">
                 </div>
             </div>
-            <button class="vertical-nav-btn" onclick="moveVerticalPicker(1)">▼</button>
+            <button class="boton-navegacion-vertical" onclick="moveVerticalPicker(1)">▼</button>
         </div>
 
         <div style="text-align: center; margin-top: 30px;">
-            <button class="add-to-cart-btn" id="add-to-cart-final-btn" style="display: inline-block;" onclick="addToCart()">AGREGAR AL CARRITO</button>
+            <button class="boton-agregar-carrito" id="add-to-cart-final-btn" style="display: inline-block;" onclick="addToCart()">AGREGAR AL CARRITO</button>
         </div>
     </div>
 
     <!-- MODAL CARRITO -->
-    <div class="modal" id="cart-modal">
-        <div class="modal-content">
-            <div class="modal-header">
+    <div class="ventana-modal" id="cart-modal">
+        <div class="contenido-modal">
+            <div class="cabecera-modal">
                 <h2>TU RESERVA</h2>
-                <button class="close-btn" onclick="toggleCart()">&times;</button>
+                <button class="boton-cerrar" onclick="toggleCart()">&times;</button>
             </div>
             <div id="cart-items">
                 <p style="color: var(--text-dim);">El carrito está vacío.</p>
             </div>
-            <div class="cart-total" id="cart-total" style="display:none;"></div>
-            <button class="checkout-btn" onclick="finishPurchase()">CONFIRMAR RESERVA</button>
+            <div class="total-carrito" id="cart-total" style="display:none;"></div>
+            <button class="boton-pago" onclick="finishPurchase()">CONFIRMAR RESERVA</button>
         </div>
     </div>
 
@@ -146,7 +146,7 @@
                     { name: 'Mario Kart 8 Deluxe', img: 'images/mariokart.png' },
                     { name: 'Animal Crossing: New Horizons', img: 'images/animal.png' },
                     { name: 'The Legend of Zelda: Tears of the Kingdom', img: 'images/zelda.png' },
-                    { name: 'Super Smash Bros. Ultimate', img: 'images/smashbros.png' },
+                    { name: 'Super Smash Bros: Ultimate', img: 'images/smashbros.png' },
                     { name: 'Splatoon 3', img: 'images/splatoon.png' }
                 ]
             },
@@ -169,7 +169,7 @@
                 games: [
                     { name: "Castlevania: Belmont's Curse", img: 'images/castle.png' },
                     { name: 'Cuphead', img: 'images/cuphead.png' },
-                    { name: 'Red Dead Redemption 2', img: 'images/reddead.png' },
+                    { name: 'Geometry Dash', img: 'images/gd.png' },
                     { name: 'Cyberpunk 2077', img: 'images/cyber.png' },
                     { name: 'R.E.P.O', img: 'images/repo.png' },
                     { name: 'How To Fish', img: 'images/htf.png' },
@@ -280,7 +280,7 @@
 
             items.forEach((item, index) => {
                 const card = document.createElement('div');
-                card.className = 'card';
+                card.className = 'tarjeta';
                 card.onclick = () => {
                     if (index === currentIndex) {
                         onClickCallback(item);
@@ -306,7 +306,7 @@
         }
 
         function updateCards() {
-            const cards = track.querySelectorAll('.card');
+            const cards = track.querySelectorAll('.tarjeta');
             const total = cards.length;
 
             cards.forEach((card, index) => {
@@ -344,16 +344,16 @@
             id('date-section').style.display = 'none';
             id('all-games-section').style.display = 'none';
             id('time-section').style.display = 'block';
-            id('selected-game-title.innerText').innerText = `${selectedConsole.name} - ${selectedGame.name}`;
+            id('selected-game-title').innerText = `${selectedConsole.name} - ${selectedGame.name}`;
 
             selectedTimeOption = null;
             id('confirm-time-btn').style.display = 'none';
-            document.querySelectorAll('.time-slot').forEach(slot => slot.classList.remove('selected'));
+            document.querySelectorAll('.espacio-tiempo').forEach(slot => slot.classList.remove('selected'));
         }
 
         function selectTime(element, hoursText, price) {
             selectedTimeOption = { hoursText, price };
-            document.querySelectorAll('.time-slot').forEach(slot => slot.classList.remove('selected'));
+            document.querySelectorAll('.espacio-tiempo').forEach(slot => slot.classList.remove('selected'));
             element.classList.add('selected');
             
             id('confirm-time-btn').style.display = 'inline-block';
@@ -376,7 +376,7 @@
 
             availableDates.forEach((dateObj, index) => {
                 const itemDiv = document.createElement('div');
-                itemDiv.className = 'vertical-item' + (index === 0 ? ' active-vertical' : '');
+                itemDiv.className = 'elemento-vertical' + (index === 0 ? ' active-vertical' : '');
                 itemDiv.innerHTML = `<span>${dateObj.dayName}</span> <strong>${dateObj.dayNum}</strong> <span>${dateObj.monthName}</span>`;
                 itemDiv.onclick = () => {
                     verticalIndex = index;
@@ -394,7 +394,7 @@
         }
 
         function updateVerticalPickerUI() {
-            const items = id('vertical-date-track').querySelectorAll('.vertical-item');
+            const items = id('vertical-date-track').querySelectorAll('.elemento-vertical');
             selectedDateObj = availableDates[verticalIndex];
 
             items.forEach((item, idx) => {
@@ -435,7 +435,7 @@
             selectedDateObj = null;
             
             // 1. Quitamos visualmente la selección de los horarios
-            document.querySelectorAll('.time-slot').forEach(slot => {
+            document.querySelectorAll('.espacio-tiempo').forEach(slot => {
                 slot.classList.remove('selected');
             });
             
@@ -463,7 +463,7 @@
             container.innerHTML = cart.map((item, index) => {
                 total += item.price;
                 return `
-                    <div class="cart-item" style="margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+                    <div class="elemento-carrito" style="margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
                         <div>
                             <strong>${item.console}</strong> - ${item.game}<br>
                             <small style="color: var(--text-dim);">${item.hours} | 📅 ${item.date}</small>
